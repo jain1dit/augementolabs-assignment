@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JoinColumnsOrFormulas;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +18,7 @@ public class Floor {
 
     @NotNull
     @Id
+    @Column(name= "no")
     private long floorNo;
 
     private int flatsAvailable;
@@ -28,7 +28,8 @@ public class Floor {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Id
-    private Buildings building;
+    @JsonIgnore
+    private Building building;
 
     @Override
     public String toString() {

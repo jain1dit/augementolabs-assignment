@@ -7,28 +7,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Meter {
+@Data
+public class Building {
     @Id
     @GeneratedValue
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    private MeterType meterType;
+    @OneToMany(mappedBy = "building")
+    private List<Floor> floors;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private Zone zone;
+    private Locations locations;
 
     @Override
     public String toString() {
-        return "Meter{" +
-                "meterId=" + id +
-                ", meterType=" + meterType +
+        return "Buildings{" +
+                "buildingId=" + id +
+                ", floors=" + floors +
                 '}';
     }
 }

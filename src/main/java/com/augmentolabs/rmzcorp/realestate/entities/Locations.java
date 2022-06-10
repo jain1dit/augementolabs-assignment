@@ -1,6 +1,5 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,26 +9,30 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Buildings {
+public class Locations {
+
     @Id
     @GeneratedValue
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Facilities facility;
+    @OneToMany(mappedBy = "locations")
+    private List<Building> buildings;
 
-    @OneToMany(mappedBy = "building")
-    private List<Floor> floors;
+    private String locationName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private City city;
 
     @Override
     public String toString() {
-        return "Buildings{" +
-                "buildingId=" + id +
-                ", facility=" + facility +
-                ", floors=" + floors +
+        return "Facilities{" +
+                "locationId=" + id +
+                ", buildings=" + buildings +
+                ", geographicalLocation='" + locationName + '\'' +
                 '}';
     }
 }

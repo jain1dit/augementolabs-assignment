@@ -1,5 +1,6 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Cities {
+public class City {
 
     @Id
     @GeneratedValue
@@ -26,7 +27,7 @@ public class Cities {
     private String state;
 
     @OneToMany(mappedBy = "city")
-    private List<Facilities> facility;
+    private List<Locations> locations;
 
 
     @Override

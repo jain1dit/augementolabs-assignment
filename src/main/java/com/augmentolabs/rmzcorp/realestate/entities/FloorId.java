@@ -13,5 +13,5 @@ import java.io.Serializable;
 @Data
 public class FloorId implements Serializable {
     private Long floorNo;
-    private Buildings building;
+    private Building building;
 }

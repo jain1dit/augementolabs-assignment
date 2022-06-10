@@ -17,21 +17,22 @@ import java.util.List;
 public class Zone {
     @Id
     @GeneratedValue
-    private long zoneId;
+    private long id;
 
-    private String specifyZone;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Floor floor;
+    private String zoneName;
 
     @OneToMany(mappedBy = "zone")
     private List<Meter> meterType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Floor floor;
+
     @Override
     public String toString() {
         return "Zone{" +
-                "zoneId=" + zoneId +
-                ", specifyZone='" + specifyZone + '\'' +
+                "zoneId=" + id +
+                ", specifyZone='" + zoneName + '\'' +
                 ", meterType='" + meterType + '\'' +
                 '}';
     }
