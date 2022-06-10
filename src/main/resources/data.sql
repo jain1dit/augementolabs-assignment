@@ -1,0 +1,85 @@
+insert into cities(id, country, state) values(11, 'India', 'U.P');
+insert into cities(id, country, state) values(12, 'Russia', 'Zooh');
+insert into cities(id, country, state) values(13, 'USA', 'San Fransisco');
+insert into cities(id, country, state) values(14, 'Canada', 'Toronto');
+
+insert into facilities(location_id, city_id, geographical_location) values(111, 11 , 'South-East');
+insert into facilities(location_id, city_id, geographical_location) values(112, 11 , 'North-East');
+insert into facilities(location_id, city_id, geographical_location) values(113, 11 , 'South-West');
+insert into facilities(location_id, city_id, geographical_location) values(114, 12 , 'North-East');
+insert into facilities(location_id, city_id, geographical_location) values(115, 12 , 'South-East');
+insert into facilities(location_id, city_id, geographical_location) values(116, 12 , 'North-West');
+insert into facilities(location_id, city_id, geographical_location) values(117, 13 , 'South-West');
+insert into facilities(location_id, city_id, geographical_location) values(118, 14 , 'North-West');
+--
+insert into buildings(id, facility_location_id) values(1111, 111);
+insert into buildings(id, facility_location_id) values(1112, 111);
+insert into buildings(id, facility_location_id) values(1113, 112);
+insert into buildings(id, facility_location_id) values(1114, 112);
+insert into buildings(id, facility_location_id) values(1115, 113);
+insert into buildings(id, facility_location_id) values(1116, 113);
+insert into buildings(id, facility_location_id) values(1117, 114);
+insert into buildings(id, facility_location_id) values(1118, 114);
+insert into buildings(id, facility_location_id) values(1119, 115);
+insert into buildings(id, facility_location_id) values(1120, 116);
+insert into buildings(id, facility_location_id) values(1121, 116);
+insert into buildings(id, facility_location_id) values(1122, 117);
+insert into buildings(id, facility_location_id) values(1123, 117);
+insert into buildings(id, facility_location_id) values(1124, 118);
+insert into buildings(id, facility_location_id) values(1125, 118);
+insert into buildings(id, facility_location_id) values(1126, 118);
+
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1111);
+insert into floor(floor_no, flats_available, building_id) values(1, 4, 1111);
+insert into floor(floor_no, flats_available, building_id) values(2, 3, 1111);
+insert into floor(floor_no, flats_available, building_id) values(0, 1, 1112);
+insert into floor(floor_no, flats_available, building_id) values(1, 5, 1112);
+insert into floor(floor_no, flats_available, building_id) values(2, 3, 1112);
+insert into floor(floor_no, flats_available, building_id) values(3, 2, 1112);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1113);
+insert into floor(floor_no, flats_available, building_id) values(1, 3, 1113);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1114);
+insert into floor(floor_no, flats_available, building_id) values(1, 3, 1114);
+insert into floor(floor_no, flats_available, building_id) values(2, 4, 1114);
+insert into floor(floor_no, flats_available, building_id) values(0, 4, 1115);
+insert into floor(floor_no, flats_available, building_id) values(1, 3, 1115);
+insert into floor(floor_no, flats_available, building_id) values(2, 1, 1115);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1116);
+insert into floor(floor_no, flats_available, building_id) values(1, 2, 1116);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1117);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1118);
+insert into floor(floor_no, flats_available, building_id) values(1, 3, 1118);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1119);
+insert into floor(floor_no, flats_available, building_id) values(1, 4, 1119);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1120);
+insert into floor(floor_no, flats_available, building_id) values(1, 2, 1120);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1121);
+insert into floor(floor_no, flats_available, building_id) values(1, 2, 1121);
+insert into floor(floor_no, flats_available, building_id) values(2, 2, 1121);
+insert into floor(floor_no, flats_available, building_id) values(0, 2, 1122);
+insert into floor(floor_no, flats_available, building_id) values(1, 2, 1122);
+
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(1000, 'North', 1111, 0);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(1001, 'South', 1111, 0);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(1002, 'East', 1111, 0);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(1003, 'West', 1111, 0);
+
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(2000, 'North', 1111, 1);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(2001, 'South', 1111, 1);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(2002, 'East', 1111, 1);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(2003, 'West', 1111, 1);
+
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(3000, 'North', 1111, 2);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(3001, 'South', 1111, 2);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(3002, 'East', 1111, 2);
+insert into zone(zone_id, specify_zone, floor_building_id, floor_floor_no) values(3003, 'West', 1111, 2);
+
+insert into meter(meter_id, meter_type, zone_zone_id) values(121, 'ELECTRICITY_METER', 1000);
+insert into meter(meter_id, meter_type, zone_zone_id) values(131, 'WATER_METER', 1000);
+insert into meter(meter_id, meter_type, zone_zone_id) values(141, 'ELECTRICITY_METER', 1000);
+insert into meter(meter_id, meter_type, zone_zone_id) values(151, 'ELECTRICITY_METER', 1001);
+insert into meter(meter_id, meter_type, zone_zone_id) values(161, 'WATER_METER', 1002);
+insert into meter(meter_id, meter_type, zone_zone_id) values(171, 'ELECTRICITY_METER', 1002);
+insert into meter(meter_id, meter_type, zone_zone_id) values(181, 'ELECTRICITY_METER', 1003);
+insert into meter(meter_id, meter_type, zone_zone_id) values(191, 'WATER_METER', 1003);
+insert into meter(meter_id, meter_type, zone_zone_id) values(212, 'ELECTRICITY_METER', 1003);
