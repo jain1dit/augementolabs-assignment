@@ -30,14 +30,14 @@ public class ReportController {
 
 
     @GetMapping("/meter/by/zone/{id}")
-    public List<Meter> retrieveMeterByZoneId(@PathVariable long id) throws Exception {
+    public Zone retrieveMeterByZoneId(@PathVariable long id) throws Exception {
         Optional<Zone> zone = zoneRepository.findById(id);
 
         if (!zone.isPresent()) {
             throw new Exception("Facility Id is not found: " + id);
         }
 
-        return zone.get().getMeterType();
+        return zone.get();
     }
 
     @GetMapping("/meter/by/building/{id}")

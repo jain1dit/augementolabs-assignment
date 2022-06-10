@@ -1,0 +1,10 @@
+{
+  "id": 121,
+  "meterType": [
+    {
+      "id": 121,
+      "meterType": "ELECTRICITY_METER"
+    }
+  ],
+  "zoneName": "North"
+}
