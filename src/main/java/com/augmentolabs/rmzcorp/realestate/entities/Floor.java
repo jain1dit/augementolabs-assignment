@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,7 @@ public class Floor {
     @Column(name= "no")
     private long floorNo;
 
+    @Pattern(regexp = "^[A-Za-z]*$")
     private int flatsAvailable;
 
     @OneToMany(mappedBy = "floor")

@@ -1,4 +1,4 @@
-insert into city(id, country, state) values(11, 'India', 'U.P');
+insert into city(id, country, active, state) values(11, 'India', 1,'U.P');
 
 insert into locations(id, city_id, location_name) values(111, 11 , 'Civil Line');
 
