@@ -1,4 +1,4 @@
-package com.augmentolabs.rmzcorp.realestate.controllerTest;
+package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.City;
 import com.augmentolabs.rmzcorp.realestate.entities.Locations;

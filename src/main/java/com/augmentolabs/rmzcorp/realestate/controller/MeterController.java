@@ -1,4 +1,4 @@
-package com.augmentolabs.rmzcorp.realestate.controllerTest;
+package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Meter;
 import com.augmentolabs.rmzcorp.realestate.entities.Zone;

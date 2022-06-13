@@ -1,4 +1,4 @@
-package com.augmentolabs.rmzcorp.realestate.controllerTest;
+package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.CityRepository;
