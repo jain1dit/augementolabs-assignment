@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "e6488d23-1ffe-49d8-8f40-fd99bbf12675",
+		"name": "Property-Maintenance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20770884"
+	},
+	"item": [
+		{
+			"name": "specific zone",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8765/zone/1000",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"zone",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "specific building",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8765/building/1111",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"building",
+						"1111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "specific location",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8765/location/111",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"location",
+						"111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create City",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"usa\",\r\n    \"state\": \"San\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8765/city",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"city"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,6 +1,5 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 
@@ -22,6 +22,7 @@ public class City {
     @GeneratedValue
     private long id;
 
+    @Pattern(regexp = "^[a-zA-Z]$")
     private String country;
 
     private String state;
