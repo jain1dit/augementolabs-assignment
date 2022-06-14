@@ -1,0 +1,42 @@
+{
+  "id": 111,
+  "buildings": [
+    {
+      "id": 1111,
+      "floors": [
+        {
+          "floorNo": 0,
+          "flatsAvailable": 2,
+          "zones": [
+            {
+              "id": 1000,
+              "zoneName": "North",
+              "meterType": [
+                {
+                  "id": 121,
+                  "meterType": "ELECTRICITY_METER"
+                },
+                {
+                  "id": 131,
+                  "meterType": "WATER_METER"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "floorNo": 1,
+          "flatsAvailable": 3,
+          "zones": [
+            {
+              "id": 1001,
+              "zoneName": "South",
+              "meterType": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "locationName": "Civil Line"
+}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,22 +23,32 @@ public class LocationController {
     @Autowired
     CityRepository cityRepository;
 
-    @GetMapping("/location/{id}")
-    public Locations retrieveMeterByLocationId(@PathVariable long id) throws Exception {
-        Optional<Locations> locations = locationRepository.findById(id);
+    @GetMapping("/city/{cityId}/locations")
+    public List<Locations> getAllLocations(@PathVariable long cityId){
+        Optional<City> city = cityRepository.findById(cityId);
+        if(!city.isPresent()){
+            throw new IdNotFoundException("City Id not found: "+ cityId);
+        }
+        return city.get().getLocations();
+    }
+
+
+    @GetMapping("/city/{cityId}/location/{locationId}")
+    public Locations getSpecificLocation(@PathVariable long locationId) throws Exception {
+        Optional<Locations> locations = locationRepository.findById(locationId);
 
         if (!locations.isPresent()) {
-            throw new IdNotFoundException("Location Id is not found: " + id);
+            throw new IdNotFoundException("Location Id is not found: " + locationId);
         }
 
         return locations.get();
     }
 
-    @PostMapping("/city/{id}/location")
-    public ResponseEntity<Locations> createLocation(@PathVariable long id, @RequestBody Locations locations) throws Exception {
-        Optional<City> city = cityRepository.findById(id);
+    @PostMapping("/city/{cityId}/location")
+    public ResponseEntity<Locations> saveNewLocation(@PathVariable long cityId, @RequestBody Locations locations) throws Exception {
+        Optional<City> city = cityRepository.findById(cityId);
         if(!city.isPresent()){
-            throw new IdNotFoundException("City Id not found"+ id);
+            throw new IdNotFoundException("City Id not found"+ cityId);
         }
 
         Optional<Locations> newLocation = locationRepository.findById(locations.getId());
@@ -47,14 +58,17 @@ public class LocationController {
             locationRepository.save(locations);
 
         }
+        else{
+            throw new RuntimeException("Location already present with Location Id: "+ locations.getId());
+        }
 
-        URI url = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(locations.getId())
-                .toUri();
+//        URI url = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{cityId}")
+//                .buildAndExpand(locations.getId())
+//                .toUri();
 
-        return ResponseEntity.created(url).build();
+        return ResponseEntity.ok().build();
     }
 
 }

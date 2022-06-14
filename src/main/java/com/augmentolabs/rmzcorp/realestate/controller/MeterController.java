@@ -23,7 +23,7 @@ public class MeterController {
     MeterRepository meterRepository;
 
     @GetMapping("/meter/{meterId}")
-    public Meter getMeter(@PathVariable long meterId){
+    public Meter getSpecificMeter(@PathVariable long meterId){
         Optional<Meter> meter = meterRepository.findById(meterId);
         if(!meter.isPresent()){
             throw new IdNotFoundException("Id not found"+ meterId);
@@ -34,10 +34,10 @@ public class MeterController {
 
 
     @PostMapping("/zoneId/{zoneId}/meter")
-    public ResponseEntity<Meter> createMeterByZoneId(@PathVariable long id, @RequestBody Meter meter){
-        Optional<Zone> zone = zoneRepository.findById(id);
+    public ResponseEntity<Meter> saveNewMeter(@PathVariable long zoneId, @RequestBody Meter meter) throws Exception{
+        Optional<Zone> zone = zoneRepository.findById(zoneId);
         if(!zone.isPresent()){
-            throw new IdNotFoundException("Id not found: " + id);
+            throw new IdNotFoundException("Id not found: " + zoneId);
 
         }
 
@@ -46,13 +46,16 @@ public class MeterController {
             meter.setZone(zone.get());
             meterRepository.save(meter);
         }
+        else {
+            throw new RuntimeException("Meter already exists with MeterId: "+ meter.getId());
+        }
 
-        URI url = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(meter.getId())
-                .toUri();
+//        URI url = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{zoneId}")
+//                .buildAndExpand(meter.getId())
+//                .toUri();
 
-        return ResponseEntity.created(url).build();
+        return ResponseEntity.ok().build();
     }
 }

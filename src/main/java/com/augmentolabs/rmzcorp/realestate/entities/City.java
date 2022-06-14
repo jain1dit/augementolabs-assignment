@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
@@ -18,7 +19,10 @@ import java.util.List;
 public class City {
 
     @Id
+    @GeneratedValue
     private long id;
+
+    private String name;
 
     @Pattern(regexp = "^[A-Za-z]*$")
     private String country;
@@ -26,7 +30,7 @@ public class City {
     @Pattern(regexp = "^[A-Za-z]*$")
     private String state;
 
-    private boolean active;
+    //private boolean active;
 
     @OneToMany(mappedBy = "city")
     private List<Locations> locations;
@@ -34,10 +38,12 @@ public class City {
 
     @Override
     public String toString() {
-        return "Cities{" +
-                "cityId=" + id +
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", country='" + country + '\'' +
                 ", state='" + state + '\'' +
+                ", locations=" + locations +
                 '}';
     }
 }

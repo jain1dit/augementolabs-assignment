@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 
@@ -21,6 +22,7 @@ public class Zone {
     @GeneratedValue
     private long id;
 
+    @Pattern(regexp = "^[A-Za-z]*$")
     private String zoneName;
 
     @OneToMany(mappedBy = "zone")

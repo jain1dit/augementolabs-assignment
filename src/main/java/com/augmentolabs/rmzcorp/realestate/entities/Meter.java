@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -20,6 +21,7 @@ public class Meter {
     private long id;
 
     @Enumerated(EnumType.STRING)
+    @Pattern(regexp = "^[A-Za-z]*$")
     private MeterType meterType;
 
     @ManyToOne(fetch = FetchType.LAZY)

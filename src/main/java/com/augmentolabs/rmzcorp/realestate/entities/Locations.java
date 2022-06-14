@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,7 @@ public class Locations {
     @OneToMany(mappedBy = "locations")
     private List<Building> buildings;
 
+    @Pattern(regexp = "^[A-Za-z]*$")
     private String locationName;
 
     @ManyToOne(fetch = FetchType.LAZY)

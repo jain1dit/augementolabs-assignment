@@ -1,58 +1,58 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.*;
-import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
-import com.augmentolabs.rmzcorp.realestate.repositories.*;
+import com.augmentolabs.rmzcorp.realestate.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.*;
 
 @RestController
 public class CityController {
     @Autowired
-    CityRepository cityRepository;
+    CityService cityService;
 
+    @GetMapping("/cities")
+    public ResponseEntity<List<City>> getAllCity() {
 
-    @GetMapping("/city/{id}")
-    public City getCity(@PathVariable long id) {
-        Optional<City> city = cityRepository.findById(id);
-        if(!city.isPresent()){
-            throw new IdNotFoundException("Id Not found: "+ id);
-        }
-        return city.get();
-
+        return ResponseEntity.ok(cityService.getAllCities());
     }
 
+
+    @GetMapping("/city/{cityId}")
+    public ResponseEntity<City> getCityById(@PathVariable long cityId) {
+        return ResponseEntity.ok(cityService.getCityById(cityId));
+
+    }
 
     @PostMapping("/city")
-    public ResponseEntity<City> createCity(@Valid @RequestBody City city) throws Exception {
-         Optional<City> newCity = cityRepository.findById(city.getId());
-         if(!newCity.isPresent()){
-             city.setActive(true);
-             cityRepository.save(city);
-         }
-         else {
-             throw new Exception("City already Present with Id: "+ city.getId());
-         }
+    public ResponseEntity<City> saveNewCity(@Valid @RequestBody City city) throws Exception {
+        City savedCity = cityService.saveNewCity(city);
 
-//        URI url = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(city.getId())
-//                .toUri();
+        URI url = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedCity.getId())
+                .toUri();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(url).build();
     }
 
-//    @PutMapping("/city/{id}")
-//    public ResponseEntity<City> updateCity(@PathVariable long id, @RequestBody City newCity) {
-//        // get city by id
-//        // set in active and save db
-//        // save new city
-//
-//    }
+
+    @PutMapping("/city/{id}")
+    public ResponseEntity<City> updateCity(@PathVariable long id, @RequestBody City newCity) {
+        return ResponseEntity.ok(cityService.updateCity(id, newCity));
+    }
+
+    @DeleteMapping("/city/{cityId}")
+    public ResponseEntity<City> deleteCity(@PathVariable long cityId) throws Exception {
+        cityService.deleteCity(cityId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

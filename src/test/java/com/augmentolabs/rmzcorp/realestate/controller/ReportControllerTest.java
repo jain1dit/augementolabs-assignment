@@ -36,13 +36,13 @@ public class ReportControllerTest {
     @Test
     public void whenZoneSuccess() throws Exception {
         when(zoneRepository.findById(anyLong())).thenReturn(ZoneResponse.getZones());
-        assertEquals(ZoneResponse.getZones().get(), zoneController.retrieveMeterByZoneId(1L));
+        assertEquals(ZoneResponse.getZones().get(), zoneController.getSpecificZone(1L));
     }
 
     @Test
     public void whenZoneFailure() throws Exception {
         when(zoneRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, () -> zoneController.retrieveMeterByZoneId(1L));
+        assertThrows(IdNotFoundException.class, () -> zoneController.getSpecificZone(1L));
     }
 
 

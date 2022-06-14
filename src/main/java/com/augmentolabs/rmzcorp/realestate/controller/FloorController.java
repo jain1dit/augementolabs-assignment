@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,11 +24,20 @@ public class FloorController {
     @Autowired
     FloorRepository floorRepository;
 
-    @PostMapping("/building/{id}/floor")
-    public ResponseEntity<Floor> addFloor(@PathVariable long id, @RequestBody Floor floor) {
-        Optional<Building> building = buildingRepository.findById(id);
+    @GetMapping("/building/{buildingId}/floor")
+    public List<Floor> getFloors(@PathVariable long buildingId){
+        Optional<Building> building = buildingRepository.findById(buildingId);
+        if(!building.isPresent()){
+            throw new IdNotFoundException("Floor Id not found: "+buildingId);
+        }
+        return building.get().getFloors();
+    }
+
+    @PostMapping("/building/{buildingId}/floor")
+    public ResponseEntity<Floor> addFloor(@PathVariable long buildingId, @RequestBody Floor floor) {
+        Optional<Building> building = buildingRepository.findById(buildingId);
         if (!building.isPresent()) {
-            throw new IdNotFoundException("Building ID not found: " + id);
+            throw new IdNotFoundException("Building ID not found: " + buildingId);
         }
 
         Optional<Floor> newFloor = floorRepository.findById(floor.getFloorNo());
@@ -35,15 +45,18 @@ public class FloorController {
             floor.setBuilding(building.get());
             floorRepository.save(floor);
         }
+        else{
+            throw new RuntimeException("Floor already present");
+        }
 
 
-        URI url = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(floor.getFloorNo())
-                .toUri();
+//        URI url = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{buildingId}")
+//                .buildAndExpand(floor.getFloorNo())
+//                .toUri();
 
-        return ResponseEntity.created(url).build();
+        return ResponseEntity.ok().build();
     }
 
 //    @GetMapping("/building/{buildingId}/floor/{floorId}")

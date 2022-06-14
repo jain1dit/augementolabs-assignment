@@ -27,45 +27,41 @@ public class ZoneController {
     BuildingRepository buildingRepository;
 
 
-    @GetMapping("/zone/{id}")
-    public Zone retrieveMeterByZoneId(@PathVariable long id) throws Exception {
-        Optional<Zone> zone = zoneRepository.findById(id);
+    @GetMapping("/zone/{zoneId}")
+    public Zone getSpecificZone(@PathVariable long zoneId) throws Exception {
+        Optional<Zone> zone = zoneRepository.findById(zoneId);
 
 
         if (!zone.isPresent()) {
-            throw new IdNotFoundException("Facility Id is not found: " + id);
+            throw new IdNotFoundException("Facility Id not found: " + zoneId);
         }
 
         return zone.get();
     }
 
-    @PostMapping("/buildingId/{buildingId}/at/floorNo/{floorNo}/zone")
-    public ResponseEntity<Object> createZone(@PathVariable long id, @PathVariable int floorNo, @RequestBody Zone zone/*, @RequestBody Meter meter*/) throws Exception {
-        Optional<Building> building = buildingRepository.findById(id);
-        if(!building.isPresent()){
-            throw new IdNotFoundException("Building Id not found"+ id);
-        }
 
+    @PostMapping("/building/{buildingId}/floor/{floorNo}/zone")
+    public ResponseEntity<Object> saveNewZone(@PathVariable long buildingId, @PathVariable int floorNo, @RequestBody Zone zone) throws Exception {
+        Optional<Building> building = buildingRepository.findById(buildingId);
+        if(!building.isPresent()){
+            throw new IdNotFoundException("Building Id not found"+ buildingId);
+        }
+        // search floor in building
+        // search zone on that floor
+        // if not present then create
+        // else zone is aleready present
         Optional<Zone> newZone = zoneRepository.findById(zone.getId());
         if(!newZone.isPresent()){
-            List<Floor> floors = building.get().getFloors();
-            zone.setFloor(floors.get(floorNo));
-
-
-            /*Zone newZone =*/ zoneRepository.save(zone);
+            zone.setFloor(building.get().getFloors().get(floorNo));
+            zoneRepository.save(zone);
         }
 
+//        URI url = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{buildingId}")
+//                .buildAndExpand(zone.getId())
+//                .toUri();
 
-        //Meter newMeter = meterRepository.save(meter);
-        //newZone.setMeterType(Collections.singletonList(newMeter));
-
-
-        URI url = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(zone.getId())
-                .toUri();
-
-        return ResponseEntity.created(url).build();
+        return ResponseEntity.ok().build();
     }
 }
