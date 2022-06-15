@@ -19,6 +19,7 @@ public class Floor {
 
     @NotNull
     @Id
+    @GeneratedValue
     @Column(name= "no")
     private long floorNo;
 

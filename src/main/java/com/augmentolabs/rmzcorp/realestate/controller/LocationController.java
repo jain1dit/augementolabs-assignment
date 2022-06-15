@@ -5,6 +5,8 @@ import com.augmentolabs.rmzcorp.realestate.entities.Locations;
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.CityRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.LocationRepository;
+import com.augmentolabs.rmzcorp.realestate.service.LocationService;
+import com.augmentolabs.rmzcorp.realestate.service.impl.LocationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,58 +19,39 @@ import java.util.Optional;
 @RestController
 public class LocationController {
 
-    @Autowired
-    LocationRepository locationRepository;
 
     @Autowired
-    CityRepository cityRepository;
+    LocationService locationService;
 
     @GetMapping("/city/{cityId}/locations")
-    public List<Locations> getAllLocations(@PathVariable long cityId){
-        Optional<City> city = cityRepository.findById(cityId);
-        if(!city.isPresent()){
-            throw new IdNotFoundException("City Id not found: "+ cityId);
-        }
-        return city.get().getLocations();
+    public ResponseEntity<List<Locations>> getAllLocations(@PathVariable long cityId){
+        return ResponseEntity.ok(locationService.getAllLocations(cityId));
     }
 
-
     @GetMapping("/city/{cityId}/location/{locationId}")
-    public Locations getSpecificLocation(@PathVariable long locationId) throws Exception {
-        Optional<Locations> locations = locationRepository.findById(locationId);
-
-        if (!locations.isPresent()) {
-            throw new IdNotFoundException("Location Id is not found: " + locationId);
-        }
-
-        return locations.get();
+    public ResponseEntity<Locations> getSpecificLocationInSpecificCity(@PathVariable long cityId, @PathVariable long locationId) throws Exception {
+        return ResponseEntity.ok(locationService.getSpecificLocationInSpecificCity(cityId, locationId));
     }
 
     @PostMapping("/city/{cityId}/location")
     public ResponseEntity<Locations> saveNewLocation(@PathVariable long cityId, @RequestBody Locations locations) throws Exception {
-        Optional<City> city = cityRepository.findById(cityId);
-        if(!city.isPresent()){
-            throw new IdNotFoundException("City Id not found"+ cityId);
-        }
-
-        Optional<Locations> newLocation = locationRepository.findById(locations.getId());
-        if(!newLocation.isPresent()){
-            locations.setCity(city.get());
-//            validateLocationName(locations.getLocationName());
-            locationRepository.save(locations);
-
-        }
-        else{
-            throw new RuntimeException("Location already present with Location Id: "+ locations.getId());
-        }
-
+        return ResponseEntity.ok(locationService.saveNewLocation(cityId, locations));
+    }
 //        URI url = ServletUriComponentsBuilder
 //                .fromCurrentRequest()
 //                .path("/{cityId}")
 //                .buildAndExpand(locations.getId())
 //                .toUri();
 
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/location/{locationId}")
+    public ResponseEntity<Locations> deleteLocation(@PathVariable long locationId){
+        locationService.deleteLocation(locationId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/city/{cityId}/location/{locationId}")
+    public ResponseEntity<Locations> updateLocation(@PathVariable long cityId, @PathVariable long locationId, @RequestBody Locations location ){
+        return ResponseEntity.ok(locationService.updateLocation(cityId, locationId, location));
     }
 
 }

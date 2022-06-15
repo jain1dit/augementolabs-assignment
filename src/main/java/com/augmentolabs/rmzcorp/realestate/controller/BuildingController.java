@@ -6,6 +6,8 @@ import com.augmentolabs.rmzcorp.realestate.entities.Locations;
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.LocationRepository;
+import com.augmentolabs.rmzcorp.realestate.service.BuildingService;
+import com.augmentolabs.rmzcorp.realestate.service.impl.BuildingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,55 +22,38 @@ import java.util.Optional;
 public class BuildingController {
 
     @Autowired
-    BuildingRepository buildingRepository;
-
-    @Autowired
-    LocationRepository locationRepository;
+    BuildingService buildingService;
 
     @GetMapping("/locations/{locationId}/buildings")
-    public List<Building> getAllBuildings(@PathVariable long locationId) {
-        Optional<Locations> locations = locationRepository.findById(locationId);
-        if (!locations.isPresent()) {
-            throw new IdNotFoundException("Location ID not found: " + locationId);
-        }
-
-        return locations.get().getBuildings();
+    public ResponseEntity<List<Building>> getAllBuildings(@PathVariable long locationId) {
+        return ResponseEntity.ok(buildingService.getAllBuildings(locationId));
     }
 
     @GetMapping("/building/{buildingId}")
-    public Building getSpecificBuilding(@PathVariable long buildingId) throws Exception {
-        Optional<Building> buildings = buildingRepository.findById(buildingId);
-
-        if (!buildings.isPresent()) {
-            throw new IdNotFoundException("Facility Id is not found: " + buildingId);
-        }
-
-        return buildings.get();
+    public ResponseEntity<Building> getSpecificBuilding(@PathVariable long buildingId) throws Exception {
+        return ResponseEntity.ok(buildingService.getSpecificBuilding(buildingId));
     }
 
-    @PostMapping("/location/{locationId}}/building")
+    @PostMapping("/location/{locationId}/building")
     public ResponseEntity<Building> saveNewBuilding(@PathVariable long locationId, @RequestBody Building building) {
-        Optional<Locations> locations = locationRepository.findById(locationId);
-        if (!locations.isPresent()) {
-            throw new IdNotFoundException("Location Id not found" + locationId);
-        }
-
-        Optional<Building> newBuilding = buildingRepository.findById(building.getId());
-        if (!newBuilding.isPresent()) {
-            building.setLocations(locations.get());
-            Building buildingGenerated = buildingRepository.save(building);
-            return ResponseEntity.ok(buildingGenerated);
-        } else {
-            throw new RuntimeException("Building already exists with Building ID: " + building.getId());
-        }
-
+        return ResponseEntity.ok(buildingService.saveNewBuilding(locationId, building));
 
 //        URI url = ServletUriComponentsBuilder
 //                .fromCurrentRequest()
 //                .path("/{locationId}")
 //                .buildAndExpand(building.getId())
 //                .toUri();
-
-
     }
+
+    @DeleteMapping("/building/{buildingId}")
+    public ResponseEntity<Building> deleteBuilding(@PathVariable long buildingId){
+        buildingService.deleteBuilding(buildingId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/location/{locationId}/building/{buildingId}")
+    public ResponseEntity<Building> updateBuilding(@PathVariable long locationId, @PathVariable long buildingId, @RequestBody Building building){
+        return ResponseEntity.ok(buildingService.updateBuilding(locationId, buildingId, building));
+    }
+
 }

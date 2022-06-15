@@ -18,6 +18,8 @@ public class Building {
     @GeneratedValue
     private long id;
 
+    private String name;
+
     @OneToMany(mappedBy = "building")
     private List<Floor> floors;
 
@@ -25,11 +27,13 @@ public class Building {
     @JsonIgnore
     private Locations locations;
 
-    @Override
-    public String toString() {
-        return "Buildings{" +
-                "buildingId=" + id +
-                ", floors=" + floors +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Building{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", floors=" + floors +
+//                ", locations=" + locations +
+//                '}';
+//    }
 }

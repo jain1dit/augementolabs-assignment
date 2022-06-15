@@ -39,6 +39,7 @@ public class CityServiceTest {
     @Test
     public void whenGetCityByIDSuccess() throws Exception {
         when(cityRepository.findById(anyLong())).thenReturn((CityResponse.getCity()));
+
         assertEquals(CityResponse.getCity().get(), cityService.getCityById(anyLong()));
     }
 

@@ -56,8 +56,7 @@ public class CityServiceImpl implements CityService {
         else{
             throw new IdNotFoundException("CityId Not Found ");
         }
+        newCity.setId(id);
         return saveNewCity(newCity);
     }
-
-
 }
