@@ -1,6 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Floor;
+import com.augmentolabs.rmzcorp.realestate.entities.FloorId;
 import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.FloorRepository;
 import com.augmentolabs.rmzcorp.realestate.service.FloorService;
@@ -32,14 +33,14 @@ public class FloorController {
     }
 
     @DeleteMapping("/building/{buildingId}/floor/{floorNo}")
-    public ResponseEntity<Floor> deleteFloor(@PathVariable long buildingId, @PathVariable long floorNo){
-        floorService.deleteFloor(buildingId, floorNo);
+    public ResponseEntity<Floor> deleteFloor(@PathVariable FloorId floorId){
+        floorService.deleteFloor(floorId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/building/{buildingId}/floor/{floorNo}")
-    public ResponseEntity<Floor> updateFloor(@PathVariable long buildingId, @PathVariable long floorNo, @RequestBody Floor floor){
-        return ResponseEntity.ok(floorService.updateFloor(buildingId, floorNo, floor));
+    public ResponseEntity<Floor> updateFloor(@PathVariable long buildingId, @PathVariable FloorId floorId, @RequestBody Floor floor){
+        return ResponseEntity.ok(floorService.updateFloor(buildingId, floorId, floor));
     }
 
 }

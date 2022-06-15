@@ -1,6 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.service;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Floor;
+import com.augmentolabs.rmzcorp.realestate.entities.FloorId;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -11,7 +12,7 @@ public interface FloorService {
 
     Floor addFloor(long buildingId,Floor floor);
 
-    void deleteFloor(long buildingId, long floorNo);
+    void deleteFloor(FloorId floorId);
 
-    Floor updateFloor(long buildingId, long floorNo, Floor floor);
+    Floor updateFloor(long buildingId, FloorId floorId, Floor floor);
 }

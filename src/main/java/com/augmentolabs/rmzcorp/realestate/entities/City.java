@@ -1,8 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,18 +31,10 @@ public class City {
 
     //private boolean active;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "city")
     private List<Locations> locations;
 
 
-    @Override
-    public String toString() {
-        return "City{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", country='" + country + '\'' +
-                ", state='" + state + '\'' +
-                ", locations=" + locations +
-                '}';
-    }
+
 }

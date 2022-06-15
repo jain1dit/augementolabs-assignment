@@ -23,11 +23,11 @@ public class MeterServicesImpl implements MeterServices {
 
     @Override
     public Meter getSpecificMeter(long meterId) {
-        Optional<Meter> meter = meterRepository.findById(meterId);
-        if(!meter.isPresent()){
+        Optional<Meter> meterOptional = meterRepository.findById(meterId);
+        if(!meterOptional.isPresent()){
             throw new IdNotFoundException("Id not found"+ meterId);
         }
-        return meter.get();
+        return meterOptional.get();
     }
 
     @Override

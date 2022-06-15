@@ -7,6 +7,7 @@ import com.augmentolabs.rmzcorp.realestate.response.CityResponse;
 import com.augmentolabs.rmzcorp.realestate.service.impl.CityServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -25,10 +26,8 @@ public class CityServiceTest {
     @Mock
     CityRepository cityRepository;
 
-    @Mock
+    @InjectMocks
     CityServiceImpl cityService;
-
-
 
     @Test
     public void whenGetAllCitiesSuccess() throws IOException {

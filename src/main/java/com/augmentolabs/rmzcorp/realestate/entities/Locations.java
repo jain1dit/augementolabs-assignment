@@ -1,12 +1,15 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 @Entity
@@ -19,22 +22,16 @@ public class Locations {
     @GeneratedValue
     private long id;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "locations")
     private List<Building> buildings;
 
     @Pattern(regexp = "^[A-Za-z]*$")
     private String locationName;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     private City city;
 
-    @Override
-    public String toString() {
-        return "Facilities{" +
-                "locationId=" + id +
-                ", buildings=" + buildings +
-                ", geographicalLocation='" + locationName + '\'' +
-                '}';
-    }
+
 }

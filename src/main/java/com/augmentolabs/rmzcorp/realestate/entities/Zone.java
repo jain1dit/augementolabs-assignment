@@ -1,11 +1,11 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -26,18 +26,12 @@ public class Zone {
     private String zoneName;
 
     @OneToMany(mappedBy = "zone")
+    @JsonManagedReference
     private List<Meter> meterType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Floor floor;
 
-    @Override
-    public String toString() {
-        return "Zone{" +
-                "zoneId=" + id +
-                ", specifyZone='" + zoneName + '\'' +
-                ", meterType='" + meterType + '\'' +
-                '}';
-    }
+
 }
