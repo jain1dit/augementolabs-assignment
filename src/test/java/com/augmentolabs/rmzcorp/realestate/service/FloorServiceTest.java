@@ -1,19 +1,15 @@
 package com.augmentolabs.rmzcorp.realestate.service;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Floor;
-import com.augmentolabs.rmzcorp.realestate.entities.FloorId;
+import com.augmentolabs.rmzcorp.realestate.entities.FloorKey;
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.FloorRepository;
-import com.augmentolabs.rmzcorp.realestate.response.BuildingResponse;
 import com.augmentolabs.rmzcorp.realestate.service.impl.FloorServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -60,7 +56,7 @@ public class FloorServiceTest {
     @Test
     public void whenAddFloorFailed() throws IOException {
         when(buildingRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, ()->floorService.addFloor(1111, new Floor()));
+        assertThrows(IdNotFoundException.class, ()->floorService.addFloor(1111));
     }
 
 //    @Test
@@ -73,7 +69,7 @@ public class FloorServiceTest {
     @Test
     public void whenDeleteFloorFailed() throws IOException {
         when(buildingRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, ()->floorService.deleteFloor(new FloorId()));
+        assertThrows(IdNotFoundException.class, ()->floorService.deleteFloor(anyLong(), anyLong()));
     }
 
 //    @Test
@@ -86,7 +82,7 @@ public class FloorServiceTest {
 
     @Test
     public void whenUpdateFloorFailed() throws IOException {
-        when(floorRepository.findById(new FloorId())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, ()->floorService.updateFloor(anyLong(), new FloorId(), new Floor()));
+        when(floorRepository.findById(new FloorKey())).thenReturn(Optional.empty());
+        assertThrows(IdNotFoundException.class, ()->floorService.updateFloor(anyLong(), anyLong(), new Floor()));
     }
 }

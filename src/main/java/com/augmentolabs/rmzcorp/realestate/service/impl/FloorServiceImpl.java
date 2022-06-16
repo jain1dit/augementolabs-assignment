@@ -2,15 +2,15 @@ package com.augmentolabs.rmzcorp.realestate.service.impl;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Building;
 import com.augmentolabs.rmzcorp.realestate.entities.Floor;
-import com.augmentolabs.rmzcorp.realestate.entities.FloorId;
+import com.augmentolabs.rmzcorp.realestate.entities.FloorKey;
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.FloorRepository;
 import com.augmentolabs.rmzcorp.realestate.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,36 +33,44 @@ public class FloorServiceImpl implements FloorService {
     }
 
     @Override
-    public Floor addFloor(long buildingId, Floor floor) {
+    public Floor addFloor(long buildingId) throws Exception {
         Optional<Building> building = buildingRepository.findById(buildingId);
         if (!building.isPresent()) {
             throw new IdNotFoundException("Building ID not found: " + buildingId);
         }
 
+        List<Floor> allFloors = building.get().getFloors();
+        Floor floor = new Floor();
+        int setFloorNo = allFloors.size();
+        floor.setFloorNumber(++setFloorNo);
+        floor.setBuildingId(buildingId);
         floor.setBuilding(building.get());
         return floorRepository.save(floor);
     }
 
     @Override
-    public void deleteFloor(FloorId floorId) {
-        Optional<Floor> floor = floorRepository.findById(floorId);
+    public void deleteFloor(long buildingId, long floorId) {
+
+        Optional<Building> getBuilding = buildingRepository.findById(buildingId);
+        if(!getBuilding.isPresent()){
+            throw new IdNotFoundException("Building Id not found "+ buildingId);
+        }
+
+        FloorKey floorKey = new FloorKey();
+        floorKey.setId(floorId);
+        floorKey.setBuildingId(getBuilding.get().getId());
+        Optional<Floor> floor = floorRepository.findById(floorKey);
         if (!floor.isPresent()) {
             throw new IdNotFoundException("Floor No. not present: " + floorId);
         }
-        floorRepository.deleteById(floorId);
+        floorRepository.deleteById(floorKey);
 
 
     }
 
     @Override
-    public Floor updateFloor(long buildingId, FloorId floorId, Floor floor) {
-        Optional<Floor> availableFloor = floorRepository.findById(floorId);
-        if (!availableFloor.isPresent()) {
-            throw new IdNotFoundException("Floor NO. or Building Id not found");
-        }
-
-        deleteFloor(floorId);
-
-        return addFloor(buildingId, floor);
+    public Floor updateFloor(long buildingId, long floorId, Floor floor) throws Exception {
+        deleteFloor(buildingId, floorId);
+        return addFloor(buildingId);
     }
 }

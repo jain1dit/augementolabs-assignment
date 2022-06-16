@@ -1,13 +1,12 @@
 package com.augmentolabs.rmzcorp.realestate.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -15,23 +14,27 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(FloorId.class)
-public class Floor {
+@IdClass(FloorKey.class)
+public class Floor implements Serializable {
 
     @NotNull
     @Id
     @GeneratedValue
-    @Column(name= "no")
-    private long floorNo;
+    @Column(name= "id")
+    private long id;
 
-    private int flatsAvailable;
+    @Id
+    @Column(name = "building_id")
+    private long buildingId;
+
+    private int floorNumber;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "floor")
     private List<Zone> zones;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Id
+    @JoinColumn(name = "building_id", insertable = false, updatable = false)
     @JsonBackReference
     private Building building;
 

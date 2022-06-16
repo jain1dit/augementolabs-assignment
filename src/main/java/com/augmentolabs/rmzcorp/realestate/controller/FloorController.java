@@ -1,7 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Floor;
-import com.augmentolabs.rmzcorp.realestate.entities.FloorId;
+import com.augmentolabs.rmzcorp.realestate.entities.FloorKey;
 import com.augmentolabs.rmzcorp.realestate.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,25 +23,25 @@ public class FloorController {
     }
 
     @PostMapping("/building/{buildingId}/floor")
-    public ResponseEntity<Floor> addFloor(@PathVariable long buildingId, @RequestBody Floor floor) {
-       Floor savedFloor = floorService.addFloor(buildingId, floor);
+    public ResponseEntity<Floor> addFloor(@PathVariable long buildingId) throws Exception {
+       Floor savedFloor = floorService.addFloor(buildingId);
         URI url = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/building/{buildingId}/floor/"+ savedFloor.getFloorNo())
-                .buildAndExpand(savedFloor.getFloorNo())
+                .path("/building/{buildingId}/floor/"+ savedFloor.getId())
+                .buildAndExpand(savedFloor.getId())
                 .toUri();
         return ResponseEntity.created(url).build();
 
     }
 
-    @DeleteMapping("/floor/{floorId}")
-    public ResponseEntity<Floor> deleteFloor(@PathVariable FloorId floorId){
-        floorService.deleteFloor(floorId);
+    @DeleteMapping("/building/{buildingId}/floor/{floorId}")
+    public ResponseEntity<Floor> deleteFloor(@PathVariable long buildingId, @PathVariable long floorId){
+        floorService.deleteFloor(buildingId, floorId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/building/{buildingId}/floor/{floorId}")
-    public ResponseEntity<Floor> updateFloor(@PathVariable long buildingId, @PathVariable FloorId floorId, @RequestBody Floor floor){
+    public ResponseEntity<Floor> updateFloor(@PathVariable long buildingId, @PathVariable long floorId, @RequestBody Floor floor) throws Exception {
         return ResponseEntity.ok(floorService.updateFloor(buildingId, floorId, floor));
     }
 

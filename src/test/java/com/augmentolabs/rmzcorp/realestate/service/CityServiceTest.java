@@ -13,12 +13,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class CityServiceTest {
@@ -50,15 +50,18 @@ public class CityServiceTest {
 
     @Test
     public void whenSaveNewCitySuccess() throws IOException {
-        when(cityRepository.save(new City())).thenReturn(new City());
-        assertEquals(new City(), cityService.saveNewCity(new City()));
+        when(cityRepository.save(any())).thenReturn(CityResponse.getCity().orElse(null));
+        assertEquals(CityResponse.getCity().orElse(null).getId(), cityService.saveNewCity(CityResponse.getCity().orElse(null)).getId());
     }
 
-//    @Test
-//    public void whenDeleteCitySuccess() throws IOException {
-//        when(cityRepository.findById(anyLong())).thenReturn(CityResponse.getCity());
-//        assertEquals(, cityService.deleteCity(anyLong()));
-//    }
+    @Test
+    public void whenDeleteCitySuccess() throws IOException {
+        when(cityRepository.findById(anyLong())).thenReturn(CityResponse.getCity());
+        doNothing().when(cityRepository).deleteById(anyLong());
+        cityService.deleteCity(anyLong());
+        verify(cityRepository, times(1)).findById(anyLong());
+        verify(cityRepository, times(1)).deleteById(anyLong());
+    }
 
     @Test
     public void whenDeleteCityFailed() throws IOException {
@@ -66,13 +69,14 @@ public class CityServiceTest {
         assertThrows(IdNotFoundException.class , ()-> cityService.deleteCity(anyLong()));
     }
 
-//    @Test
-//    public void whenUpdateCitySuccess() throws Exception {
-//        when(cityRepository.findById(anyLong())).thenReturn(Optional.of(new City()));
-//        cityService.deleteCity(new City().getId());
-//        cityService.saveNewCity(new City());
-//        assertEquals(new City(), cityService.updateCity(new City().getId(), new City()));
-//    }
+    @Test
+    public void whenUpdateCitySuccess() throws Exception {
+        when(cityRepository.findById(anyLong())).thenReturn(CityResponse.getCity());
+        doNothing().when(cityRepository).deleteById(anyLong());
+        when(cityRepository.save(any())).thenReturn(CityResponse.getCity().orElse(null));
+
+        assertEquals(CityResponse.getCity().orElse(null).getId(), cityService.updateCity(11, CityResponse.getCity().orElse(null)).getId());
+    }
 
 
     @Test

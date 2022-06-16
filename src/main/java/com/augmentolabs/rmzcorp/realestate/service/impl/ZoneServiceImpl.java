@@ -42,7 +42,7 @@ public class ZoneServiceImpl implements ZoneServices {
 
         List<Floor> floors = building.get().getFloors();
         for(Floor floor:floors){
-            if(floor.getFloorNo()==floorNo){
+            if(floor.getId()==floorNo){
                return zoneRepository.save(zone);
             }
             else {
@@ -73,7 +73,7 @@ public class ZoneServiceImpl implements ZoneServices {
         }
         List<Floor> floors = getBuilding.get().getFloors();
         for(Floor floor:floors){
-            if(floor.getFloorNo()==floorNo){
+            if(floor.getId()==floorNo){
                 deleteZone(zoneId);
             }
         }
