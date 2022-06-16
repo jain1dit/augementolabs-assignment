@@ -1,6 +1,6 @@
 insert into city(id,name, country, state) values(11, 'Meerut', 'India', 'U.P');
 
-insert into locations(id, city_id, location_name) values(111, 11 , 'Civil Line');
+insert into location(id, city_id, location_name) values(111, 11 , 'Civil Line');
 
 insert into building(id, name, locations_id) values(1111, '5-star', 111);
 

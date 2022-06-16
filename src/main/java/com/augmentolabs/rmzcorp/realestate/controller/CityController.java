@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.*;
@@ -22,7 +21,6 @@ public class CityController {
         return ResponseEntity.ok(cityService.getAllCities());
     }
 
-
     @GetMapping("/city/{cityId}")
     public ResponseEntity<City> getCityById(@PathVariable long cityId) {
         return ResponseEntity.ok(cityService.getCityById(cityId));
@@ -35,7 +33,7 @@ public class CityController {
 
         URI url = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{id}")
+                .path("/city/"+ savedCity.getId())
                 .buildAndExpand(savedCity.getId())
                 .toUri();
 

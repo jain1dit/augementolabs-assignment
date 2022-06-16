@@ -1,27 +1,15 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Meter;
-import com.augmentolabs.rmzcorp.realestate.entities.Zone;
-import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
-import com.augmentolabs.rmzcorp.realestate.repositories.MeterRepository;
-import com.augmentolabs.rmzcorp.realestate.repositories.ZoneRepository;
 import com.augmentolabs.rmzcorp.realestate.service.MeterServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 public class MeterController {
-
-    @Autowired
-    ZoneRepository zoneRepository;
-
-    @Autowired
-    MeterRepository meterRepository;
 
     @Autowired
     MeterServices meterServices;
@@ -32,16 +20,16 @@ public class MeterController {
 
     }
 
-
-    @PostMapping("/zoneId/{zoneId}/meter")
+    @PostMapping("/zone/{zoneId}/meter")
     public ResponseEntity<Meter> saveNewMeter(@PathVariable long zoneId, @RequestBody Meter meter) throws Exception{
-        return ResponseEntity.ok(meterServices.saveNewMeter(zoneId, meter));
+        Meter savedMeter = meterServices.saveNewMeter(zoneId, meter);
 
-//        URI url = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{zoneId}")
-//                .buildAndExpand(meter.getId())
-//                .toUri();
+        URI url = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/zone/{zoneId}/meter/"+ savedMeter.getId())
+                .buildAndExpand(savedMeter.getId())
+                .toUri();
+        return ResponseEntity.created(url).build();
 
     }
 

@@ -10,7 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)

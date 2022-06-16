@@ -1,7 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.service.impl;
 
 import com.augmentolabs.rmzcorp.realestate.entities.City;
-import com.augmentolabs.rmzcorp.realestate.entities.Locations;
+import com.augmentolabs.rmzcorp.realestate.entities.Location;
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.CityRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.LocationRepository;
@@ -22,7 +22,7 @@ public class LocationServiceImpl implements LocationService {
     LocationRepository locationRepository;
 
     @Override
-    public List<Locations> getAllLocations(long cityId) {
+    public List<Location> getAllLocations(long cityId) {
         Optional<City> city = cityRepository.findById(cityId);
         if (!city.isPresent()) {
             throw new IdNotFoundException("City Id not found: " + cityId);
@@ -31,16 +31,16 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Locations getSpecificLocationInSpecificCity(long cityId, long locationId) {
+    public Location getSpecificLocationInSpecificCity(long cityId, long locationId) {
         Optional<City> city = cityRepository.findById(cityId);
-        Optional<Locations> locations = locationRepository.findById(locationId);
+        Optional<Location> locations = locationRepository.findById(locationId);
 
         if (!locations.isPresent()|| !city.isPresent()) {
             throw new IdNotFoundException("City Id or Location Id is not found: ");
         }
 
-        List<Locations> allLocations  = city.get().getLocations();
-        for(Locations location : allLocations){
+        List<Location> allLocations  = city.get().getLocations();
+        for(Location location : allLocations){
             if(location.getId()==locationId){
                 return location;
             }
@@ -49,7 +49,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Locations saveNewLocation(long cityId, Locations locations) {
+    public Location saveNewLocation(long cityId, Location locations) {
         Optional<City> city = cityRepository.findById(cityId);
         if (!city.isPresent()) {
             throw new IdNotFoundException("City Id not found" + cityId);
@@ -62,7 +62,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void deleteLocation(long locationId) {
-        Optional<Locations> locations = locationRepository.findById(locationId);
+        Optional<Location> locations = locationRepository.findById(locationId);
         if(!locations.isPresent()){
             throw new IdNotFoundException("Location Id not found: "+ locationId);
         }
@@ -71,8 +71,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Locations updateLocation(long cityId, long locationId, Locations locations) {
-        Optional<Locations> getLocations = locationRepository.findById(locationId);
+    public Location updateLocation(long cityId, long locationId, Location locations) {
+        Optional<Location> getLocations = locationRepository.findById(locationId);
         if(getLocations.isPresent()){
             deleteLocation(locationId);
         }

@@ -1,22 +1,19 @@
 package com.augmentolabs.rmzcorp.realestate.service;
 
-import com.augmentolabs.rmzcorp.realestate.entities.Locations;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.augmentolabs.rmzcorp.realestate.entities.Location;
 
 import java.util.List;
 
 public interface LocationService {
 
-    List<Locations> getAllLocations(long cityId);
+    List<Location> getAllLocations(long cityId);
 
-    Locations getSpecificLocationInSpecificCity(long cityId, long locationId);
+    Location getSpecificLocationInSpecificCity(long cityId, long locationId);
 
-    Locations saveNewLocation(long cityId, Locations locations);
+    Location saveNewLocation(long cityId, Location locations);
 
     void deleteLocation(long locationId);
 
-    Locations updateLocation(long cityId, long locationId, Locations locations);
+    Location updateLocation(long cityId, long locationId, Location locations);
 
 }

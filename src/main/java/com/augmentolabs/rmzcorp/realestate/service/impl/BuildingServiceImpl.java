@@ -1,7 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.service.impl;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Building;
-import com.augmentolabs.rmzcorp.realestate.entities.Locations;
+import com.augmentolabs.rmzcorp.realestate.entities.Location;
 import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
 import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
 import com.augmentolabs.rmzcorp.realestate.repositories.LocationRepository;
@@ -23,7 +23,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public List<Building> getAllBuildings(long locationId) {
-        Optional<Locations> locations = locationRepository.findById(locationId);
+        Optional<Location> locations = locationRepository.findById(locationId);
         if (!locations.isPresent()) {
             throw new IdNotFoundException("Location ID not found: " + locationId);
         }
@@ -44,7 +44,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public Building saveNewBuilding(long locationId, Building building) {
-        Optional<Locations> locations = locationRepository.findById(locationId);
+        Optional<Location> locations = locationRepository.findById(locationId);
         if (!locations.isPresent()) {
             throw new IdNotFoundException("Location Id not found" + locationId);
         }

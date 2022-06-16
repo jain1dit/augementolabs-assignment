@@ -14,7 +14,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class City {
 
     @Id
@@ -29,11 +30,9 @@ public class City {
     @Pattern(regexp = "^[A-Za-z]*$")
     private String state;
 
-    //private boolean active;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "city")
-    private List<Locations> locations;
+    private List<Location> locations;
 
 
 

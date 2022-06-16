@@ -2,12 +2,13 @@ package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Floor;
 import com.augmentolabs.rmzcorp.realestate.entities.FloorId;
-import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
-import com.augmentolabs.rmzcorp.realestate.repositories.FloorRepository;
 import com.augmentolabs.rmzcorp.realestate.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,22 +24,23 @@ public class FloorController {
 
     @PostMapping("/building/{buildingId}/floor")
     public ResponseEntity<Floor> addFloor(@PathVariable long buildingId, @RequestBody Floor floor) {
-        return ResponseEntity.ok(floorService.addFloor(buildingId, floor));
-//        URI url = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{buildingId}")
-//                .buildAndExpand(floor.getFloorNo())
-//                .toUri();
+       Floor savedFloor = floorService.addFloor(buildingId, floor);
+        URI url = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/building/{buildingId}/floor/"+ savedFloor.getFloorNo())
+                .buildAndExpand(savedFloor.getFloorNo())
+                .toUri();
+        return ResponseEntity.created(url).build();
 
     }
 
-    @DeleteMapping("/building/{buildingId}/floor/{floorNo}")
+    @DeleteMapping("/floor/{floorId}")
     public ResponseEntity<Floor> deleteFloor(@PathVariable FloorId floorId){
         floorService.deleteFloor(floorId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/building/{buildingId}/floor/{floorNo}")
+    @PutMapping("/building/{buildingId}/floor/{floorId}")
     public ResponseEntity<Floor> updateFloor(@PathVariable long buildingId, @PathVariable FloorId floorId, @RequestBody Floor floor){
         return ResponseEntity.ok(floorService.updateFloor(buildingId, floorId, floor));
     }

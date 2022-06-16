@@ -1,13 +1,7 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Building;
-import com.augmentolabs.rmzcorp.realestate.entities.City;
-import com.augmentolabs.rmzcorp.realestate.entities.Locations;
-import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
-import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
-import com.augmentolabs.rmzcorp.realestate.repositories.LocationRepository;
 import com.augmentolabs.rmzcorp.realestate.service.BuildingService;
-import com.augmentolabs.rmzcorp.realestate.service.impl.BuildingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +9,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 public class BuildingController {
@@ -36,13 +28,15 @@ public class BuildingController {
 
     @PostMapping("/location/{locationId}/building")
     public ResponseEntity<Building> saveNewBuilding(@PathVariable long locationId, @RequestBody Building building) {
-        return ResponseEntity.ok(buildingService.saveNewBuilding(locationId, building));
+        Building savedBuilding = buildingService.saveNewBuilding(locationId, building);
 
-//        URI url = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{locationId}")
-//                .buildAndExpand(building.getId())
-//                .toUri();
+        URI url = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/location/{locationId}/building/"+ savedBuilding.getId())
+                .buildAndExpand(savedBuilding.getId())
+                .toUri();
+
+        return ResponseEntity.created(url).build();
     }
 
     @DeleteMapping("/building/{buildingId}")

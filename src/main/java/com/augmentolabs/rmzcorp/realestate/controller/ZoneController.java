@@ -1,12 +1,13 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Zone;
-import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
-import com.augmentolabs.rmzcorp.realestate.repositories.ZoneRepository;
 import com.augmentolabs.rmzcorp.realestate.service.ZoneServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 
 @RestController
@@ -24,13 +25,13 @@ public class ZoneController {
 
     @PostMapping("/building/{buildingId}/floor/{floorNo}/zone")
     public ResponseEntity<Object> saveNewZone(@PathVariable long buildingId, @PathVariable long floorNo, @RequestBody Zone zone) throws Exception {
-        return ResponseEntity.ok(zoneServices.saveNewZone(buildingId, floorNo, zone));
-//        URI url = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{buildingId}")
-//                .buildAndExpand(zone.getId())
-//                .toUri();
-
+        Zone savedZone = zoneServices.saveNewZone(buildingId, floorNo, zone);
+        URI url = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/building/{buildingId}/floor/{floorNo}/zone/"+ savedZone.getId())
+                .buildAndExpand(savedZone.getId())
+                .toUri();
+        return ResponseEntity.created(url).build();
     }
 
     @DeleteMapping("/zone/{zoneId}")

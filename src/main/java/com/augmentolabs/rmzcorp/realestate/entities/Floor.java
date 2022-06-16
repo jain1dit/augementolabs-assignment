@@ -11,7 +11,8 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @IdClass(FloorId.class)
