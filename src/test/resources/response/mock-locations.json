@@ -3,10 +3,12 @@
   "buildings": [
     {
       "id": 1111,
+      "name": "5-star",
       "floors": [
         {
-          "floorNo": 0,
-          "flatsAvailable": 2,
+          "id": 5,
+          "buildingId": 1111,
+          "floorNumber": 0,
           "zones": [
             {
               "id": 1000,
@@ -25,8 +27,9 @@
           ]
         },
         {
-          "floorNo": 1,
-          "flatsAvailable": 3,
+          "id": 6,
+          "buildingId": 1111,
+          "floorNumber": 1,
           "zones": [
             {
               "id": 1001,

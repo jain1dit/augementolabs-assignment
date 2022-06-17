@@ -1,83 +1,89 @@
 package com.augmentolabs.rmzcorp.realestate.controller;
 
 import com.augmentolabs.rmzcorp.realestate.entities.Building;
-import com.augmentolabs.rmzcorp.realestate.entities.Location;
-import com.augmentolabs.rmzcorp.realestate.exceptions.IdNotFoundException;
-import com.augmentolabs.rmzcorp.realestate.repositories.BuildingRepository;
-import com.augmentolabs.rmzcorp.realestate.repositories.LocationRepository;
-import com.augmentolabs.rmzcorp.realestate.response.LocationResponse;
+import com.augmentolabs.rmzcorp.realestate.response.BuildingResponse;
+import com.augmentolabs.rmzcorp.realestate.service.BuildingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.net.URI;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+
 
 @RunWith(SpringRunner.class)
 public class BuildingControllerTest {
 
     @Mock
-    LocationRepository locationRepository;
+    ServletUriComponentsBuilder servletUriComponentsBuilder;
 
     @Mock
-    BuildingRepository buildingRepository;
+    UriComponents uriComponents;
+
+    @Mock
+    ResponseEntity.BodyBuilder bodyBuilder;
+
+
+    @Mock
+    BuildingService buildingService;
 
     @InjectMocks
     BuildingController buildingController;
 
     @Test
-    public void whenGetAllBuildingsSuccess() throws IOException {
-        when(locationRepository.findById(anyLong())).thenReturn(LocationResponse.getLocations());
-        assertEquals(LocationResponse.getLocations().get().getBuildings(), buildingController.getAllBuildings(anyLong()));
-    }
-
-
-    @Test
-    public void whenGetAllBuildingsFailed() throws IOException {
-        when(locationRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, ()->buildingController.getAllBuildings(anyLong()));
+    public void whenGetAllBuildingsSuccess(){
+        when(buildingService.getAllBuildings(anyLong())).thenReturn(new ArrayList<Building>());
+        assertEquals(ResponseEntity.ok(buildingService.getAllBuildings(anyLong())), buildingController.getAllBuildings(anyLong()));
     }
 
     @Test
     public void whenGetSpecificBuildingSuccess() throws Exception {
-        when(buildingRepository.findById(any())).thenReturn(Optional.of(new Building()));
-        assertEquals(new Building(), buildingController.getSpecificBuilding(anyLong()));
+        when(buildingService.getSpecificBuilding(anyLong())).thenReturn(BuildingResponse.getBuildings().orElse(null));
+        assertEquals(ResponseEntity.ok(buildingService.getSpecificBuilding(1111)), buildingController.getSpecificBuilding(1111));
     }
 
     @Test
-    public void whenGetSpecificBuildingFailed() throws Exception {
-        when(buildingRepository.findById(any())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, ()->buildingController.getSpecificBuilding(anyLong()));
-    }
+    public void whenSaveNewBuildingSuccess() throws Exception {
+        when(buildingService.saveNewBuilding(anyLong(), any())).thenReturn(BuildingResponse.getBuildings().orElse(null));
 
-    @Test
-    public void whenSaveNewBuildingSuccess(){
-        when(locationRepository.findById(anyLong())).thenReturn(Optional.of(new Location()));
-        when(buildingRepository.findById(anyLong())).thenReturn(Optional.empty());
-        when(buildingRepository.save(new Building())).thenReturn(new Building());
-        assertEquals(ResponseEntity.ok().build(), buildingController.saveNewBuilding(anyLong(), new Building()));
-    }
-
-    @Test
-    public void whenSaveNewBuildingFailed1(){
-        when(locationRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(IdNotFoundException.class, ()-> buildingController.saveNewBuilding(anyLong(), new Building()));
+        try (MockedStatic<ServletUriComponentsBuilder> mockUtils = Mockito.mockStatic(ServletUriComponentsBuilder.class)) {
+            mockUtils.when(ServletUriComponentsBuilder::fromCurrentRequest).thenReturn(servletUriComponentsBuilder);
+            when(servletUriComponentsBuilder.path(anyString())).thenReturn(servletUriComponentsBuilder);
+            when(servletUriComponentsBuilder.buildAndExpand(anyLong())).thenReturn(mock(UriComponents.class));
+            when(uriComponents.toUri()).thenReturn(mock(URI.class));
+            try (MockedStatic<ResponseEntity> responseEntityMockedStatic = Mockito.mockStatic(ResponseEntity.class)){
+                responseEntityMockedStatic.when(() -> ResponseEntity.created(null)).thenReturn(bodyBuilder);
+                when(bodyBuilder.build()).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
+                assertEquals(HttpStatus.CREATED, buildingController.saveNewBuilding(111, BuildingResponse.getBuildings().orElse(null)).getStatusCode());
+            }
+        }
     }
 
 
     @Test
-    public void whenSaveNewBuildingFailed2(){
-        when(locationRepository.findById(anyLong())).thenReturn(Optional.of(new Location()));
-        when(buildingRepository.findById(anyLong())).thenReturn(Optional.of(new Building()));
-        assertThrows(RuntimeException.class, ()-> buildingController.saveNewBuilding(anyLong(), new Building()));
+    public void whenDeleteBuildingSuccess(){
+        doNothing().when(buildingService).deleteBuilding(anyLong());
+        buildingController.deleteBuilding(1111);
+        verify(buildingService, times(1)).deleteBuilding(anyLong());
+    }
+
+    @Test
+    public void whenUpdateBuildingSuccess() throws IOException {
+        when(buildingService.updateBuilding(anyLong(), anyLong(), any())).thenReturn(BuildingResponse.getBuildings().orElse(null));
+        assertEquals(ResponseEntity.ok(buildingService.updateBuilding(111, 1111, BuildingResponse.getBuildings().orElse(null))), buildingController.updateBuilding(111, 1111, BuildingResponse.getBuildings().orElse(null)));
     }
 
 }

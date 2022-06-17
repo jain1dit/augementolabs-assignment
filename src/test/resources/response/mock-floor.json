@@ -1,0 +1,21 @@
+{
+  "id": 5,
+  "buildingId": 1111,
+  "floorNumber": 0,
+  "zones": [
+    {
+      "id": 1000,
+      "zoneName": "North",
+      "meterType": [
+        {
+          "id": 121,
+          "meterType": "ELECTRICITY_METER"
+        },
+        {
+          "id": 131,
+          "meterType": "WATER_METER"
+        }
+      ]
+    }
+  ]
+}

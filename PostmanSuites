@@ -1,94 +1,661 @@
 {
 	"info": {
-		"_postman_id": "e6488d23-1ffe-49d8-8f40-fd99bbf12675",
-		"name": "Property-Maintenance",
+		"_postman_id": "71cca4ba-3d17-4f18-a378-9d8d92305f08",
+		"name": "com.augmentolabs.rmzcorp.realestate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20770884"
 	},
 	"item": [
 		{
-			"name": "specific zone",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8765/zone/1000",
-					"host": [
-						"localhost"
-					],
-					"port": "8765",
-					"path": [
-						"zone",
-						"1000"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "specific building",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8765/building/1111",
-					"host": [
-						"localhost"
-					],
-					"port": "8765",
-					"path": [
-						"building",
-						"1111"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "specific location",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8765/location/111",
-					"host": [
-						"localhost"
-					],
-					"port": "8765",
-					"path": [
-						"location",
-						"111"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create City",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"country\": \"usa\",\r\n    \"state\": \"San\"\r\n    \r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "LocationControllerServices",
+			"item": [
+				{
+					"name": "locations in specific city",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/city/11/locations",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"city",
+								"11",
+								"locations"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8765/city",
-					"host": [
-						"localhost"
-					],
-					"port": "8765",
-					"path": [
-						"city"
-					]
+				{
+					"name": "specific location in specific city",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/city/11/location/111",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"city",
+								"11",
+								"location",
+								"111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"locationName\": \"Pol Line\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/city/11/location",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"city",
+								"11",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/location/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"location",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "location",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "BuildingControllerServices",
+			"item": [
+				{
+					"name": "buildings in specific location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765//locations/111/buildings",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"locations",
+								"111",
+								"buildings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "specific building",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/building/1111",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "building in specific location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"name\": \"75-star\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765//location/111/building",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"location",
+								"111",
+								"building"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "building",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765//building/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"building",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "building in specific location",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"name\": \"57-star\"\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/location/111/building/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"location",
+								"111",
+								"building",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CityControllerServices",
+			"item": [
+				{
+					"name": "cities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/cities",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"cities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "city by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765//city/11",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"city",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "city",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Panipat\",\r\n    \"country\": \"India\",\r\n    \"state\": \"Haryana\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/city",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "city by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Karnal\",\r\n    \"country\": \"India\",\r\n    \"state\": \"Haryana\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/city/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"city",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "city by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/city/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"city",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FloorControllerServices",
+			"item": [
+				{
+					"name": "floors by building id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/building/1111/floor",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111",
+								"floor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "floor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \r\n        \"flatsAvailable\": 2\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/building/1111/floor",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111",
+								"floor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "floor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/building/1111/floor/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111",
+								"floor",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "floor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/building/1111/floor/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111",
+								"floor",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ZoneControllerServices",
+			"item": [
+				{
+					"name": "zone by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765//zone/1000",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"zone",
+								"1000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "zone by buildingId and floorNo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"zoneName\": \"North\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/building/1111/floor/5/zone",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111",
+								"floor",
+								"5",
+								"zone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "zone by zoneId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765//zone/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"zone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "zone by buildingId and floorNo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"zoneName\": \"South\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/building/1111/floor/0/zone/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"building",
+								"1111",
+								"floor",
+								"0",
+								"zone",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MeterControllerServices",
+			"item": [
+				{
+					"name": "meter by meterId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765//meter/121",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"",
+								"meter",
+								"121"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "meter by zoneId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"meterType\": \"ELECTRICITY_METER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/zoneId/1000/meter",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"zoneId",
+								"1000",
+								"meter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "meter by meterId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/meter/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"meter",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"meterType\": \"WATER_METER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/zone/1000/meter/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"zone",
+								"1000",
+								"meter",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

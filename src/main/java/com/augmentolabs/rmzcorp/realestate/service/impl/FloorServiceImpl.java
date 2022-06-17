@@ -41,7 +41,7 @@ public class FloorServiceImpl implements FloorService {
 
         List<Floor> allFloors = building.get().getFloors();
         Floor floor = new Floor();
-        int setFloorNo = allFloors.size();
+        int setFloorNo = allFloors.size()-1;
         floor.setFloorNumber(++setFloorNo);
         floor.setBuildingId(buildingId);
         floor.setBuilding(building.get());
