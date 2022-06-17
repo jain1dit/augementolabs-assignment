@@ -15,58 +15,56 @@ import java.util.Optional;
 @Service
 public class BuildingServiceImpl implements BuildingService {
 
-    @Autowired
-    LocationRepository locationRepository;
+  @Autowired LocationRepository locationRepository;
 
-    @Autowired
-    BuildingRepository buildingRepository;
+  @Autowired BuildingRepository buildingRepository;
 
-    @Override
-    public List<Building> getAllBuildings(long locationId) {
-        Optional<Location> locations = locationRepository.findById(locationId);
-        if (!locations.isPresent()) {
-            throw new IdNotFoundException("Location ID not found: " + locationId);
-        }
-
-        return locations.get().getBuildings();
+  @Override
+  public List<Building> getAllBuildings(long locationId) {
+    Optional<Location> locations = locationRepository.findById(locationId);
+    if (!locations.isPresent()) {
+      throw new IdNotFoundException("Location ID not found: " + locationId);
     }
 
-    @Override
-    public Building getSpecificBuilding(long buildingId) {
-        Optional<Building> buildings = buildingRepository.findById(buildingId);
+    return locations.get().getBuildings();
+  }
 
-        if (!buildings.isPresent()) {
-            throw new IdNotFoundException("Facility Id is not found: " + buildingId);
-        }
+  @Override
+  public Building getSpecificBuilding(long buildingId) {
+    Optional<Building> buildings = buildingRepository.findById(buildingId);
 
-        return buildings.get();
+    if (!buildings.isPresent()) {
+      throw new IdNotFoundException("Facility Id is not found: " + buildingId);
     }
 
-    @Override
-    public Building saveNewBuilding(long locationId, Building building) {
-        Optional<Location> locations = locationRepository.findById(locationId);
-        if (!locations.isPresent()) {
-            throw new IdNotFoundException("Location Id not found" + locationId);
-        }
-        building.setLocations(locations.get());
-        return buildingRepository.save(building);
-    }
+    return buildings.get();
+  }
 
-    @Override
-    public void deleteBuilding(long buildingId) {
-        Optional<Building> building = buildingRepository.findById(buildingId);
-        if(!building.isPresent()){
-            throw new IdNotFoundException("Building ID not found: "+ buildingId);
-        }
-        buildingRepository.deleteById(buildingId);
+  @Override
+  public Building saveNewBuilding(long locationId, Building building) {
+    Optional<Location> locations = locationRepository.findById(locationId);
+    if (!locations.isPresent()) {
+      throw new IdNotFoundException("Location Id not found" + locationId);
     }
+    building.setLocations(locations.get());
+    return buildingRepository.save(building);
+  }
 
-    @Override
-    public Building updateBuilding(long locationId, long buildingId, Building building) {
-        Optional<Building> deleteBuilding = buildingRepository.findById(buildingId);
-        if(deleteBuilding.isPresent()){
-           deleteBuilding(buildingId);
-        }
-       return saveNewBuilding(locationId, building);
+  @Override
+  public void deleteBuilding(long buildingId) {
+    Optional<Building> building = buildingRepository.findById(buildingId);
+    if (!building.isPresent()) {
+      throw new IdNotFoundException("Building ID not found: " + buildingId);
     }
+    buildingRepository.deleteById(buildingId);
+  }
+
+  @Override
+  public Building updateBuilding(long locationId, long buildingId, Building building) {
+    Optional<Building> deleteBuilding = buildingRepository.findById(buildingId);
+    if (deleteBuilding.isPresent()) {
+      deleteBuilding(buildingId);
+    }
+    return saveNewBuilding(locationId, building);
+  }
 }

@@ -6,14 +6,13 @@ import java.util.List;
 
 public interface LocationService {
 
-    List<Location> getAllLocations(long cityId);
+  List<Location> getAllLocations(long cityId);
 
-    Location getSpecificLocationInSpecificCity(long cityId, long locationId);
+  Location getSpecificLocationInSpecificCity(long cityId, long locationId);
 
-    Location saveNewLocation(long cityId, Location locations);
+  Location saveNewLocation(long cityId, Location locations);
 
-    void deleteLocation(long locationId);
+  void deleteLocation(long locationId);
 
-    Location updateLocation(long cityId, long locationId, Location locations);
-
+  Location updateLocation(long cityId, long locationId, Location locations);
 }

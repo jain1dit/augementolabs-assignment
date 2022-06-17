@@ -15,59 +15,53 @@ import java.util.Optional;
 @Service
 public class MeterServicesImpl implements MeterServices {
 
-    @Autowired
-    MeterRepository meterRepository;
+  @Autowired MeterRepository meterRepository;
 
-    @Autowired
-    ZoneRepository zoneRepository;
+  @Autowired ZoneRepository zoneRepository;
 
-    @Override
-    public Meter getSpecificMeter(long meterId) {
-        Optional<Meter> meterOptional = meterRepository.findById(meterId);
-        if(!meterOptional.isPresent()){
-            throw new IdNotFoundException("Id not found"+ meterId);
-        }
-        return meterOptional.get();
+  @Override
+  public Meter getSpecificMeter(long meterId) {
+    Optional<Meter> meterOptional = meterRepository.findById(meterId);
+    if (!meterOptional.isPresent()) {
+      throw new IdNotFoundException("Id not found" + meterId);
+    }
+    return meterOptional.get();
+  }
+
+  @Override
+  public Meter saveNewMeter(long zoneId, Meter meter) {
+    Optional<Zone> zone = zoneRepository.findById(zoneId);
+    if (!zone.isPresent()) {
+      throw new IdNotFoundException("Id not found: " + zoneId);
     }
 
-    @Override
-    public Meter saveNewMeter(long zoneId, Meter meter) {
-        Optional<Zone> zone = zoneRepository.findById(zoneId);
-        if(!zone.isPresent()){
-            throw new IdNotFoundException("Id not found: " + zoneId);
+    meter.setZone(zone.get());
+    return meterRepository.save(meter);
+  }
 
-        }
+  @Override
+  public void deleteMeter(long meterId) {
+    Optional<Meter> meter = meterRepository.findById(meterId);
+    if (!meter.isPresent()) {
+      throw new IdNotFoundException("Meter Id not found");
+    }
+    meterRepository.deleteById(meterId);
+  }
 
-        meter.setZone(zone.get());
-        return meterRepository.save(meter);
+  @Override
+  public Meter updateMeter(long zoneId, long meterId, Meter meter) {
+    Optional<Zone> zone = zoneRepository.findById(zoneId);
+    if (!zone.isPresent()) {
+      throw new IdNotFoundException("Zone Id not found: " + zoneId);
+    }
+    List<Meter> metersList = zone.get().getMeterType();
+    for (Meter meters : metersList) {
+      if (meters.getId() == meterId) {
+        deleteMeter(meterId);
+      }
     }
 
-    @Override
-    public void deleteMeter(long meterId) {
-        Optional<Meter> meter = meterRepository.findById(meterId);
-        if(!meter.isPresent()){
-            throw new IdNotFoundException("Meter Id not found");
-        }
-        meterRepository.deleteById(meterId);
-
-    }
-
-    @Override
-    public Meter updateMeter(long zoneId, long meterId, Meter meter) {
-        Optional<Zone> zone = zoneRepository.findById(zoneId);
-        if(!zone.isPresent()){
-            throw new IdNotFoundException("Zone Id not found: "+ zoneId);
-        }
-        List<Meter> metersList = zone.get().getMeterType();
-        for(Meter meters : metersList ){
-            if(meters.getId()==meterId){
-                deleteMeter(meterId);
-            }
-        }
-
-        meter.setId(meterId);
-        return saveNewMeter(zoneId, meter);
-    }
-
-
+    meter.setId(meterId);
+    return saveNewMeter(zoneId, meter);
+  }
 }

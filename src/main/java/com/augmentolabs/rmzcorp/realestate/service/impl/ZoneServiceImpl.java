@@ -16,67 +16,61 @@ import java.util.Optional;
 @Service
 public class ZoneServiceImpl implements ZoneServices {
 
-    @Autowired
-    ZoneRepository zoneRepository;
+  @Autowired ZoneRepository zoneRepository;
 
-    @Autowired
-    BuildingRepository buildingRepository;
+  @Autowired BuildingRepository buildingRepository;
 
-    @Override
-    public Zone getSpecificZone(long zoneId) {
-        Optional<Zone> zone = zoneRepository.findById(zoneId);
-        if (!zone.isPresent()) {
-            throw new IdNotFoundException("Zone Id not found: " + zoneId);
-        }
-
-        return zone.get();
-
+  @Override
+  public Zone getSpecificZone(long zoneId) {
+    Optional<Zone> zone = zoneRepository.findById(zoneId);
+    if (!zone.isPresent()) {
+      throw new IdNotFoundException("Zone Id not found: " + zoneId);
     }
 
-    @Override
-    public Zone saveNewZone(long buildingId, long floorNo, Zone zone) {
-        Optional<Building> building = buildingRepository.findById(buildingId);
-        if(!building.isPresent()){
-            throw new IdNotFoundException("Building Id not found");
-        }
+    return zone.get();
+  }
 
-        List<Floor> floors = building.get().getFloors();
-        for(Floor floor:floors){
-            if(floor.getId()==floorNo){
-               return zoneRepository.save(zone);
-            }
-            else {
-                throw new IdNotFoundException("Floor No not found");
-            }
-        }
-        return null;
+  @Override
+  public Zone saveNewZone(long buildingId, long floorNo, Zone zone) {
+    Optional<Building> building = buildingRepository.findById(buildingId);
+    if (!building.isPresent()) {
+      throw new IdNotFoundException("Building Id not found");
     }
 
-    @Override
-    public void deleteZone(long zoneId) {
-        Optional<Zone> zone = zoneRepository.findById(zoneId);
-        if(zone.isPresent()){
-            zoneRepository.deleteById(zoneId);
-        }
-        else {
-            throw new IdNotFoundException("ZoneId not found: "+zoneId);
-        }
-
+    List<Floor> floors = building.get().getFloors();
+    for (Floor floor : floors) {
+      if (floor.getId() == floorNo) {
+        return zoneRepository.save(zone);
+      } else {
+        throw new IdNotFoundException("Floor No not found");
+      }
     }
+    return null;
+  }
 
-    @Override
-    public Zone updateZoneId(long buildingId, long floorNo, long zoneId, Zone zone) {
-        Optional<Building> getBuilding = buildingRepository.findById(buildingId);
-        Optional<Zone> getZone = zoneRepository.findById(zoneId);
-        if(!getBuilding.isPresent()||!getZone.isPresent()){
-            throw new IdNotFoundException("BuildingID or ZoneId not found");
-        }
-        List<Floor> floors = getBuilding.get().getFloors();
-        for(Floor floor:floors){
-            if(floor.getId()==floorNo){
-                deleteZone(zoneId);
-            }
-        }
-        return saveNewZone(buildingId, floorNo, zone);
+  @Override
+  public void deleteZone(long zoneId) {
+    Optional<Zone> zone = zoneRepository.findById(zoneId);
+    if (zone.isPresent()) {
+      zoneRepository.deleteById(zoneId);
+    } else {
+      throw new IdNotFoundException("ZoneId not found: " + zoneId);
     }
+  }
+
+  @Override
+  public Zone updateZoneId(long buildingId, long floorNo, long zoneId, Zone zone) {
+    Optional<Building> getBuilding = buildingRepository.findById(buildingId);
+    Optional<Zone> getZone = zoneRepository.findById(zoneId);
+    if (!getBuilding.isPresent() || !getZone.isPresent()) {
+      throw new IdNotFoundException("BuildingID or ZoneId not found");
+    }
+    List<Floor> floors = getBuilding.get().getFloors();
+    for (Floor floor : floors) {
+      if (floor.getId() == floorNo) {
+        deleteZone(zoneId);
+      }
+    }
+    return saveNewZone(buildingId, floorNo, zone);
+  }
 }
